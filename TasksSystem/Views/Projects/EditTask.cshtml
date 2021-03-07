@@ -1,0 +1,52 @@
+﻿@model TasksSystem.Models.Task
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Task</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditTask">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Text">Text:</label>
+                <textarea name="Text" class="form-control" cols="100" rows="16">@Html.Raw(Model.Text)</textarea>
+            </div>
+            <div class="form-group">
+                Status: @Model.Status
+            </div>
+            <div class="form-group">
+                <p>
+                    <label for="Status">Status:</label>
+                    <select multiple name="Status">
+                        @foreach (Statuses status in ViewBag.Statuses)
+                        {
+                            <option value=@status>@status</option>
+                        }
+                    </select>
+                </p>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Profile" asp-action="Index">Back to Your Tasks</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

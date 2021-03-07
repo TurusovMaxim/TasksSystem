@@ -1,0 +1,99 @@
+﻿@model TasksSystem.Models.DecryptedUser
+
+
+<div>
+    <h4>About you</h4>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+           First name
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DecryptedFirstName)
+        </dd>
+        <dt class="col-sm-2">
+            Last name
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DecryptedLastName)
+        </dd>
+        <dt class="col-sm-2">
+            Birthday
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DecryptedBirthday)
+        </dd>
+        <dt class="col-sm-2">
+            About me:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DecryptedComment)
+        </dd>
+    </dl>
+</div>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-controller="Projects" asp-action="Index">See Projects</a>
+    </p>
+    <p>
+        <a asp-controller="Users" asp-action="Index">See Users</a>
+    </p>
+    <p>
+        <a asp-controller="Account" asp-action="Register">Create Admin</a>
+    </p>
+}
+
+@if (!User.IsInRole("Admin"))//Model.Role == "Guest" || Model.Role == "User"
+{
+    <p>
+        <a asp-controller="Projects" asp-action="Index">See Projects</a>
+    </p>
+}
+
+@if (User.IsInRole("Admin") || User.IsInRole("User"))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Tasks)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (TasksSystem.Models.Task task in ViewBag.Tasks)
+            {
+                <tr>
+                    <td>
+                        @if (!task.isOutstanding)
+                        {
+                            @task.Title
+                        }
+                        else
+                        {
+                            <span style="color: red">@task.Title</span>
+                        }
+
+                    </td>
+                    <td>
+                        <a asp-controller="Projects" asp-action="EditTask" asp-route-id="@task.Id">Edit</a> |
+                        <a asp-controller="Projects" asp-action="TaskDetails" asp-route-id="@task.Id">Details</a> |
+                        <a asp-controller="Projects" asp-action="DeleteTask" asp-route-id="@task.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<form method="post" asp-controller="Account" asp-action="Logout">
+    <input type="submit" value="Sign out" class="btn btn-outline-dark" />
+</form>

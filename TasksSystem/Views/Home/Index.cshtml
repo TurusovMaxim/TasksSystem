@@ -1,0 +1,27 @@
+﻿@model TasksSystem.Models.User
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (Model == null)
+{
+<div class="text-center">
+
+    <h1 class="display-4">Welcome, Guest</h1>
+</div>
+}
+else
+{
+    <div class="text-center">
+
+        <h1 class="display-4">Welcome</h1>
+    </div>
+}
+
+@if (Model == null)
+{
+    <p>
+        <a asp-controller="Projects" asp-action="Index">See Projects</a>
+    </p>
+}
